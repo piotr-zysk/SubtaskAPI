@@ -14,6 +14,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using SubtaskAPI.Controllers;
+using SubtaskAPI.Logic;
 
 namespace SubtaskAPI
 {
@@ -98,7 +99,11 @@ namespace SubtaskAPI
         {
             // Application components
             //Container.Register(Component.For<IHttpContextAccessor>().ImplementedBy<HttpContextAccessor>());
-            //Container.Register(Component.For<IScopedDisposableService>().ImplementedBy<ScopedDisposableService>().LifestyleScoped().IsDefault());
+            //Container.Register(Component.For<ITaskLogic>().ImplementedBy<TaskLogic>().LifestyleScoped().IsDefault());
+
+            Container.Register(Classes.FromAssemblyNamed("SubtaskAPI").Pick().WithService.DefaultInterfaces()
+                .LifestyleScoped());
+
             //Container.Register(Component.For<ITransientDisposableService>().ImplementedBy<TransientDisposableService>().LifestyleTransient().IsDefault());
             //Container.Register(Component.For<ISingletonDisposableService>().ImplementedBy<SingletonDisposableService>().LifestyleSingleton().IsDefault());
         }

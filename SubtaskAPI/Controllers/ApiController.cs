@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using SubtaskAPI.Logic;
+using SubtaskAPI.Models;
 
 namespace SubtaskAPI.Controllers
 {
@@ -10,11 +12,21 @@ namespace SubtaskAPI.Controllers
     [ApiController]
     public class ApiController : ControllerBase
     {
+        private ITaskLogic _logic;
+
+        public ApiController(ITaskLogic logic)
+        {
+            this._logic = logic;
+        }
+
         // GET api/values
         [HttpGet]
-        public ActionResult<IEnumerable<string>> Get()
+        public ActionResult<IEnumerable<TaskItem>> Get()
         {
-            return new string[] { "value1", "value2" };
+            var x = _logic.GetAllTaskItems();
+            return Ok(x);
+
+            //return new string[] {"value1", "value2", x};
         }
 
         // GET api/values/5
@@ -43,3 +55,4 @@ namespace SubtaskAPI.Controllers
         }
     }
 }
+
