@@ -20,13 +20,18 @@ namespace SubtaskAPI.Controllers
         }
 
         // GET api/values
-        [HttpGet]
-        public ActionResult<IEnumerable<TaskItem>> Get()
+        [HttpGet("db")]
+        public ActionResult<IEnumerable<TaskItem>> GetDb()
         {
             var x = _logic.GetAllTaskItems();
             return Ok(x);
+        }
 
-            //return new string[] {"value1", "value2", x};
+        [HttpGet]
+        public ActionResult<IEnumerable<TaskItem>> GetFullTasks()
+        {
+            var x = _logic.GetAllFullTasks();
+            return Ok(x);
         }
 
         // GET api/values/5

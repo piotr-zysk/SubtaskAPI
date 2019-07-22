@@ -9,6 +9,7 @@ namespace SubtaskAPI.Logic
     public interface ITaskLogic
     {
         IEnumerable<TaskItem> GetAllTaskItems();
+        IEnumerable<FullTask> GetAllFullTasks();
         string Test();
     }
 }
