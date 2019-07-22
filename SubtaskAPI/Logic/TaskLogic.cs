@@ -17,7 +17,7 @@ namespace SubtaskAPI.Logic
             this._repo = _repo;
         }
 
-        public IEnumerable<FullTask> GetAllFullTasks()
+        public IDictionary<int,FullTask> GetAllFullTasks()
         {
             var allTaskItems = _repo.GetAllTaskItems();
 
@@ -33,7 +33,7 @@ namespace SubtaskAPI.Logic
                         Title = task.Title,
                         Done = task.Done,
                         Items = subtaskList.ToList()
-                    }).ToList();
+                    }).ToDictionary(item => item.Id, item => item);
             
             return tasks;
         }
@@ -42,6 +42,17 @@ namespace SubtaskAPI.Logic
         {
             return _repo.GetAllTaskItems();
         }
+
+        public TaskEntityState GetAllTasks()
+        {
+            var te = new TaskEntityState();
+            te.Entities = this.GetAllFullTasks();
+            te.State = new State();
+            te.Ids = _repo.GetIdsString().Split(',').Select(x => int.Parse(x)).ToArray();
+
+            return te;
+        }
+
 
         public string Test()
         {

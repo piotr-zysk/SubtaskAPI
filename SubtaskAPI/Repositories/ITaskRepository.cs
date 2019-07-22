@@ -9,5 +9,7 @@ namespace SubtaskAPI.Repositories
     public interface ITaskRepository
     {
         IEnumerable<TaskItem> GetAllTaskItems();
+
+        string GetIdsString();
     }
 }

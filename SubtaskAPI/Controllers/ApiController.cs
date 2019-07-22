@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using SubtaskAPI.Logic;
 using SubtaskAPI.Models;
@@ -28,9 +29,18 @@ namespace SubtaskAPI.Controllers
         }
 
         [HttpGet]
-        public ActionResult<IEnumerable<TaskItem>> GetFullTasks()
+        public ActionResult<TaskEntityState> GetFullTasks()
         {
-            var x = _logic.GetAllFullTasks();
+            TaskEntityState x;
+            try
+            {
+                x = _logic.GetAllTasks();
+            }
+            catch(Exception e)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError,"Oops. Database Error Occured. :( Please try again much later.\r\n"+e.Message);
+            }
+
             return Ok(x);
         }
 
