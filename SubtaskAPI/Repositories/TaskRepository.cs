@@ -22,7 +22,7 @@ namespace SubtaskAPI.Repositories
             this._entities.Add(new TaskItem { Done = false, Id = 5, ParentId = 1, Title = "podtask bla" });
             this._entities.Add(new TaskItem { Done = false, Id = 6, ParentId = 0, Title = "single element" });
 
-            this._order = "1,2";
+            this._order = "1,2,6";
 
         }
 

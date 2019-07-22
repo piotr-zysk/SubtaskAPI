@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using SubtaskAPI.Logic;
@@ -10,6 +11,7 @@ using SubtaskAPI.Models;
 namespace SubtaskAPI.Controllers
 {
     [Route("[controller]")]
+    [EnableCors("MyPolicy")]
     [ApiController]
     public class ApiController : ControllerBase
     {

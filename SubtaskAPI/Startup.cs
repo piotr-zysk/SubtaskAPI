@@ -46,6 +46,13 @@ namespace SubtaskAPI
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
 
+            services.AddCors(o => o.AddPolicy("MyPolicy", builder =>
+            {
+                builder.AllowAnyOrigin()
+                    .AllowAnyMethod()
+                    .AllowAnyHeader();
+            }));
+
             services.AddLogging((lb) => lb.AddConsole().AddDebug());
             
             // Custom application component registrations, ordering is important here
