@@ -5,6 +5,7 @@ using Microsoft.Extensions.DependencyInjection;
 using NHibernate.Cfg;
 using System;
 using System.Reflection;
+using NHibernate.Tool.hbm2ddl;
 using SubtaskAPI.Logic;
 using SubtaskAPI.Repositories;
 
@@ -26,6 +27,10 @@ namespace SubtaskAPI.IOC
                 .BasedOn<ITaskRepository>().WithService.FromInterface());
             container.Register(Classes.FromAssembly(Assembly.GetExecutingAssembly())
                 .BasedOn<ITaskLogic>().WithService.FromInterface());
+
+            // DDL - code first
+            //Configuration cfg = new Configuration().Configure();
+            //new SchemaExport(cfg).Create(false, true);
 
             container.Register(Component
                 .For<NHibernate.ISessionFactory>()

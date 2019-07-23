@@ -10,14 +10,14 @@
     </id>
 
     <property name="Title">
-      <column name="Title" length="100" not-null="true" sql-type="nvarchar(100)" />
+      <column name="Title" not-null="true" />
     </property>
     <property name="ParentId" >
-      <column name="ParentId" not-null="true" sql-type="int" />
+      <column name="ParentId" not-null="true" />
     </property>
 
     <property name="Done" >
-    <column name="Done" sql-type="Boolean" />
+    <column name="Done" />
     </property>
   </class>
 
