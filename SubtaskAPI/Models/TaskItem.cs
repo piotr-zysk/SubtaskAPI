@@ -7,9 +7,9 @@ namespace SubtaskAPI.Models
 {
     public class TaskItem
     {
-        public int Id;
-        public int ParentId;
-        public string Title;
-        public bool Done;
+        public virtual int Id { get; set; }
+        public virtual int ParentId { get; set; }
+        public virtual string Title { get; set; }
+        public virtual bool Done { get; set; }
     }
 }
