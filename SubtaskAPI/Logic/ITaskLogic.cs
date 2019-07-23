@@ -12,6 +12,6 @@ namespace SubtaskAPI.Logic
         IDictionary<int,FullTask> GetAllFullTasks();
 
         TaskEntityState GetAllTasks();
-        string Test();
+        IList<TaskItem> Test();
     }
 }

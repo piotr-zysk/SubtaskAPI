@@ -26,7 +26,8 @@ namespace SubtaskAPI.Controllers
         [HttpGet("db")]
         public ActionResult<IEnumerable<TaskItem>> GetDb()
         {
-            var x = _logic.GetAllTaskItems();
+            //var x = _logic.GetAllTaskItems();
+            var x = _logic.Test();
             return Ok(x);
         }
 

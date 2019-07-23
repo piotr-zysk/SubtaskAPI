@@ -54,9 +54,16 @@ namespace SubtaskAPI.Logic
         }
 
 
-        public string Test()
+        public IList<TaskItem> Test()
         {
-            return "dada";
+            var allTasks = this.GetAllFullTasks().Values.ToList();
+
+            List<TaskItem> tasks = allTasks.Select(x => new TaskItem { Done = x.Done, Id = x.Id, ParentId = 0, Title = x.Title }).ToList();
+            List<TaskItem> subTasks = allTasks.Select(i => i.Items).SelectMany(i => i).ToList();
+
+            tasks.AddRange(subTasks);
+
+            return tasks;
         }
     }
 }
