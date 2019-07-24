@@ -4,6 +4,7 @@ using System.Linq;
 using System.Runtime.InteropServices.ComTypes;
 using System.Threading.Tasks;
 using NHibernate;
+using NHibernate.Linq;
 using SubtaskAPI.Models;
 
 namespace SubtaskAPI.Repositories
@@ -15,6 +16,26 @@ namespace SubtaskAPI.Repositories
         public TaskRepository(ISession session)
         {
             this._session = session;
+        }
+
+        public void AddTaskItems(ICollection<TaskItem> taskItems)
+        {
+            using (var transaction = _session.BeginTransaction())
+            {
+                foreach (var taskItem in taskItems)
+                {
+                    this._session.SaveOrUpdate(taskItem);
+                }
+                transaction.Commit();
+            }
+            
+            
+        }
+
+        public void DeleteTaskItems(IEnumerable<int> ids)
+        {
+            this._session.Query<TaskItem>()
+                .Where(c => ids.Contains(c.Id)).Delete();
         }
 
         //private List<TaskItem> _entities;
@@ -40,5 +61,10 @@ namespace SubtaskAPI.Repositories
 
         public string GetIdsString()
             => this._session.Query<TaskOrder>().Select(s => s.Ids).FirstOrDefault();
+
+        public void SetTaskOrder(string newOrder)
+        {
+            this._session.Query<TaskOrder>().Where(t => t.Id == 1).UpdateBuilder().Set(c => c.Ids, newOrder).Update();
+        }
     }
 }

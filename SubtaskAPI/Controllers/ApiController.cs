@@ -23,13 +23,13 @@ namespace SubtaskAPI.Controllers
         }
 
         // GET api/values
-        [HttpGet("db")]
-        public ActionResult<IEnumerable<TaskItem>> GetDb()
-        {
-            //var x = _logic.GetAllTaskItems();
-            var x = _logic.Test();
-            return Ok(x);
-        }
+        //[HttpGet("db")]
+        //public ActionResult<IEnumerable<TaskItem>> GetDb()
+        //{
+        //    //var x = _logic.GetAllTaskItems();
+        //    var x = _logic.Test();
+        //    return Ok(x);
+        //}
 
         [HttpGet]
         public ActionResult<TaskEntityState> GetFullTasks()
@@ -53,6 +53,13 @@ namespace SubtaskAPI.Controllers
         {
             return "value";
         }
+
+        [HttpPost("save")]
+        public void Save([FromBody] TaskEntityState value)
+        {
+            _logic.Save(value);
+        }
+
 
         // POST api/values
         [HttpPost]

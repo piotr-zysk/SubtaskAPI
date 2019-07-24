@@ -53,17 +53,29 @@ namespace SubtaskAPI.Logic
             return te;
         }
 
-
-        public IList<TaskItem> Test()
+        public IList<TaskItem> GetTaskItemsFromEntity(IDictionary<int,FullTask> td)
         {
-            var allTasks = this.GetAllFullTasks().Values.ToList();
+            // var allTasks = this.GetAllFullTasks().Values.ToList();
 
-            List<TaskItem> tasks = allTasks.Select(x => new TaskItem { Done = x.Done, Id = x.Id, ParentId = 0, Title = x.Title }).ToList();
-            List<TaskItem> subTasks = allTasks.Select(i => i.Items).SelectMany(i => i).ToList();
+            List<TaskItem> tasks = td.Values.Select(x => new TaskItem { Done = x.Done, Id = x.Id, ParentId = 0, Title = x.Title }).ToList();
+            List<TaskItem> subTasks = td.Values.Select(i => i.Items.Select(t => new TaskItem
+            {
+                ParentId = i.Id,
+                Title = t.Title,
+                Id = t.Id,
+                Done = t.Done
+            } )).SelectMany(i => i).ToList();
 
             tasks.AddRange(subTasks);
 
             return tasks;
+        }
+
+        public void Save(TaskEntityState t)
+        {
+            this._repo.DeleteTaskItems(t.State.ItemsToDelete);
+            this._repo.AddTaskItems(GetTaskItemsFromEntity(t.Entities));
+            this._repo.SetTaskOrder(String.Join(",", t.Ids));
         }
     }
 }

@@ -11,5 +11,9 @@ namespace SubtaskAPI.Repositories
         IEnumerable<TaskItem> GetAllTaskItems();
 
         string GetIdsString();
+
+        void DeleteTaskItems(IEnumerable<int> ids);
+        void AddTaskItems(ICollection<TaskItem> taskItems);
+        void SetTaskOrder(string newOrder);
     }
 }
