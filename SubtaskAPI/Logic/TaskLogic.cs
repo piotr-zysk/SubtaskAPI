@@ -17,9 +17,11 @@ namespace SubtaskAPI.Logic
             this._repo = _repo;
         }
 
-        public IDictionary<int,FullTask> GetAllFullTasks()
+        public (IDictionary<int, FullTask>, int) GetAllFullTasks()
         {
             var allTaskItems = _repo.GetAllTaskItems();
+
+            int maxId = _repo.GetAllTaskItems().Max(t => t.Id);
 
             var subtasks = allTaskItems.Where(t => t.ParentId > 0);
 
@@ -34,8 +36,8 @@ namespace SubtaskAPI.Logic
                         Done = task.Done,
                         Items = subtaskList.ToList()
                     }).ToDictionary(item => item.Id, item => item);
-            
-            return tasks;
+
+            return (tasks, maxId);
         }
 
         public IEnumerable<TaskItem> GetAllTaskItems()
@@ -46,8 +48,8 @@ namespace SubtaskAPI.Logic
         public TaskEntityState GetAllTasks()
         {
             var te = new TaskEntityState();
-            te.Entities = this.GetAllFullTasks();
             te.State = new State();
+            (te.Entities, te.State.maxId) = this.GetAllFullTasks();
             te.Ids = _repo.GetIdsString().Split(',').Select(x => int.Parse(x)).ToArray();
 
             return te;

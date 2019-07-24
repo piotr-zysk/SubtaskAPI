@@ -9,7 +9,7 @@ namespace SubtaskAPI.Logic
     public interface ITaskLogic
     {
         IEnumerable<TaskItem> GetAllTaskItems();
-        IDictionary<int,FullTask> GetAllFullTasks();
+        (IDictionary<int,FullTask>, int) GetAllFullTasks();
 
         TaskEntityState GetAllTasks();
         IList<TaskItem> GetTaskItemsFromEntity(IDictionary<int, FullTask> td);
