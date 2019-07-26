@@ -56,7 +56,7 @@ namespace SubtaskAPI.Repositories
 
         //}
 
-        public IEnumerable<TaskItem> GetAllTaskItems()
+        public IEnumerable<TaskItem> GetAllTaskItemsDTO()
             => this._session.Query<TaskItem>().ToList();
 
         public string GetIdsString()

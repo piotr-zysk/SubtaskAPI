@@ -4,7 +4,9 @@ using Castle.Windsor.MsDependencyInjection;
 using Microsoft.Extensions.DependencyInjection;
 using NHibernate.Cfg;
 using System;
+using System.Linq;
 using System.Reflection;
+using AutoMapper;
 using NHibernate.Tool.hbm2ddl;
 using SubtaskAPI.Logic;
 using SubtaskAPI.Repositories;
@@ -40,6 +42,26 @@ namespace SubtaskAPI.IOC
                 .For<NHibernate.ISession>()
                 .UsingFactoryMethod(kernel => kernel.Resolve<NHibernate.ISessionFactory>().OpenSession())
                 .LifeStyle.Transient);
+
+            // Automapper
+            // Register all mapper profiles
+            container.Register(
+                Classes.FromAssemblyInThisApplication(GetType().Assembly)
+                    .BasedOn<Profile>().WithServiceBase());
+
+            // Register IConfigurationProvider with all registered profiles
+            container.Register(Component.For<IConfigurationProvider>().UsingFactoryMethod(kernel =>
+            {
+                return new MapperConfiguration(configuration =>
+                {
+                    kernel.ResolveAll<Profile>().ToList().ForEach(configuration.AddProfile);
+                });
+            }).LifestyleSingleton());
+
+            // Register IMapper with registered IConfigurationProvider
+            container.Register(
+                Component.For<IMapper>().UsingFactoryMethod(kernel =>
+                    new Mapper(kernel.Resolve<IConfigurationProvider>(), kernel.Resolve)));
 
             serviceProvider = WindsorRegistrationHelper.CreateServiceProvider(container, services);
         }

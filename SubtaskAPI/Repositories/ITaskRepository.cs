@@ -8,7 +8,7 @@ namespace SubtaskAPI.Repositories
 {
     public interface ITaskRepository
     {
-        IEnumerable<TaskItem> GetAllTaskItems();
+        IEnumerable<TaskItem> GetAllTaskItemsDTO();
 
         string GetIdsString();
 

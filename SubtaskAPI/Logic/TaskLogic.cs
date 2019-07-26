@@ -1,8 +1,11 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
+using AutoMapper;
+using SubtaskAPI.Automapper;
 using SubtaskAPI.Models;
 using SubtaskAPI.Repositories;
 
@@ -11,17 +14,19 @@ namespace SubtaskAPI.Logic
     public class TaskLogic : ITaskLogic
     {
         private ITaskRepository _repo;
+        private IMapper _mapper;
 
-        public TaskLogic(ITaskRepository _repo)
+        public TaskLogic(ITaskRepository _repo, IMapper _mapper)
         {
             this._repo = _repo;
+            this._mapper = _mapper;
         }
 
         public (IDictionary<int, FullTask>, int) GetAllFullTasks()
         {
-            var allTaskItems = _repo.GetAllTaskItems();
+            var allTaskItems = _repo.GetAllTaskItemsDTO();
 
-            int maxId = _repo.GetAllTaskItems().Max(t => t.Id);
+            int maxId = _repo.GetAllTaskItemsDTO().Max(t => t.Id);
 
             var subtasks = allTaskItems.Where(t => t.ParentId > 0);
 
@@ -42,7 +47,12 @@ namespace SubtaskAPI.Logic
 
         public IEnumerable<TaskItem> GetAllTaskItems()
         {
-            return _repo.GetAllTaskItems();
+            return _repo.GetAllTaskItemsDTO();
+        }
+
+        public IEnumerable<TaskItemDTO> GetAllTaskItemsDTO()
+        {
+            return _mapper.Map<IEnumerable<TaskItem>, IEnumerable<TaskItemDTO>>(GetAllTaskItems());
         }
 
         public TaskEntityState GetAllTasks()

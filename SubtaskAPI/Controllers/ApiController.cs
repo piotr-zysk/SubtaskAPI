@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using SubtaskAPI.Automapper;
 using SubtaskAPI.Logic;
 using SubtaskAPI.Models;
 
@@ -22,14 +23,13 @@ namespace SubtaskAPI.Controllers
             this._logic = logic;
         }
 
-        // GET api/values
-        //[HttpGet("db")]
-        //public ActionResult<IEnumerable<TaskItem>> GetDb()
-        //{
-        //    //var x = _logic.GetAllTaskItems();
-        //    var x = _logic.Test();
-        //    return Ok(x);
-        //}
+       
+       [HttpGet("db")]
+        public ActionResult<IEnumerable<TaskItemDTO>> GetDb()
+        {
+            var x = _logic.GetAllTaskItemsDTO();
+            return Ok(x);
+        }
 
         [HttpGet]
         public ActionResult<TaskEntityState> GetFullTasks()
